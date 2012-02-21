@@ -1,0 +1,7 @@
+*.log
+*.tmp
+.bundle
+.DS_Store
+tmp/*
+vendor/*
+config.rb
