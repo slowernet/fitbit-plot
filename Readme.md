@@ -13,6 +13,12 @@ That kind of thing.
 * Run through the [oauth process](https://github.com/whazzmaster/fitgem/wiki/The-OAuth-Process) via fitgem, and add your access token and access secret to config.rb.
 * Run the app via rackup, shotgun, Passenger, etc.
 
+## todo
+
+* 4-day moving average is hardcoded, ugly. Make configurable.
+* Select data to be graphed in the config rather than the html.
+* Select colors in config.
+
 ## Privacy and disclaimer
 
 Your copy of the application has read-only access to your data. I have no access to it. I assure you I don't have any interest in your data, but note that I take no responsibility for anything that happens if you choose to use this app. Like the man says:

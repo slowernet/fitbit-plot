@@ -23,7 +23,7 @@ get '/' do
 	erb :index
 end
 
-get '/data' do
+get '/data.json' do
 	content_type 'application/json'
 	d = $client.data_by_time_range("#{params[:e]}", { :base_date => 'today', :period => '1y' })
 	d = d[d.keys.first][1..-1]
@@ -52,6 +52,7 @@ __END__
 		html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{border:0;font-size:100%;font:inherit;vertical-align:baseline;margin:0;padding:0;}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block;}body{line-height:1;}ol,ul{list-style:none;}blockquote,q{quotes:none;}blockquote:before,blockquote:after,q:before,q:after{content:none;}table{border-collapse:collapse;border-spacing:0;}
 		body { padding: 12px; font: 13px/17px 'hevetica neue', helvetica; }
 		a { text-decoration: none; color: #88b; }
+		.loading { background: transparent url(http://curbednetwork.com/images/spinner.gif) 50% 50% no-repeat; }
 	</style>
 	
 	<script type="text/javascript" defer charset="utf-8">
@@ -69,10 +70,6 @@ __END__
 			'jquery.flot.min.js'
 		], 'bundle');
 	</script>
-	
-	<style type="text/css" media="screen">
-		.loading { background: transparent url(http://curbednetwork.com/images/spinner.gif) 50% 50% no-repeat; }
-	</style>
 </head>
 <body>
 	<select>
@@ -86,15 +83,14 @@ __END__
 </body>
 
 <script type="text/javascript" charset="utf-8">
-
 	$script.ready('bundle', function() {
 		var plot = null;
-		
+
 		$('select').change(function(ev) {
 			$('#canvas').empty().addClass('loading');
 			var $select = $(this);
 			if ($select.val() == '') return;
-			$.getJSON('/data', { 
+			$.getJSON('/data.json', { 
 				e: $(this).val().toLowerCase() 
 			}, function(d) {
 				var yorigin = $select.find(":selected").data('graph-zero-origin') ? 0 : null;
@@ -102,48 +98,46 @@ __END__
 					$("#canvas"), [
 						{ data: d },
 						{ data: _.map(_.range(3, d.length), function(i) { return [ d[i][0], ((d[i][1] + d[i-1][1] + d[i-2][1] + d[i-3][1]) / 4.0) ]; }) }
-				    ], {
-				        series: {
-				            lines: { show: true },
-				            points: { show: true }
-				        },
+					], {
+						series: {
+							lines: { show: true },
+							points: { show: true }
+						},
 						colors: [ 'black', '#eaa' ],
-				        xaxis: {
-			                mode: "time",
+						xaxis: {
+							mode: "time",
 							minTickSize: [1, "day"]
-				        },
-				        yaxis: {
-				            ticks: 10,
-				            min: yorigin,
-				            // max: 20000
-				        },
-				        grid: {
+						},
+						yaxis: {
+							ticks: 10,
+							min: yorigin
+						},
+						grid: {
 							hoverable: true
-				            // backgroundColor: { colors: ["#fff", "#eee"] }
-				        }
+						}
 					}
 				);
 				$('#canvas').removeClass('loading');
 			});
 		});
-		
-	    var previousPoint = null;
-	    $("#canvas").bind("plothover", function (event, pos, item) {
-            if (item) {
-                if (previousPoint != item.dataIndex) {
-                    previousPoint = item.dataIndex;
 
-                    $("#tooltip").remove();
-                    var x = item.datapoint[0].toFixed(2),
-                        y = item.datapoint[1].toFixed(2);
+		var previousPoint = null;
+		$("#canvas").bind("plothover", function (event, pos, item) {
+			if (item) {
+				if (previousPoint != item.dataIndex) {
+					previousPoint = item.dataIndex;
 
-                    showTooltip(item.pageX, item.pageY, y);
-                }
-            } else {
-                $("#tooltip").remove();
-                previousPoint = null;            
-            }
-	    });
+					$("#tooltip").remove();
+					var x = item.datapoint[0].toFixed(2),
+					y = item.datapoint[1].toFixed(2);
+
+					showTooltip(item.pageX, item.pageY, y);
+				}
+			} else {
+				$("#tooltip").remove();
+				previousPoint = null;            
+			}
+		});
 
 		function showTooltip(x, y, contents) {
 			$('<div id="tooltip">' + contents + '</div>').css({
@@ -157,12 +151,11 @@ __END__
 				opacity: 0.80
 			}).appendTo("body").fadeIn(200);
 		}
-	   
+
 		$('#canvas').height($(document).height() - 50);
-		
+
 		$('select').val('/activities/log/steps').change();		
 	});
-
 </script>
 </html>
 
