@@ -2,8 +2,8 @@ CONFIG = {
 	:fitbit => {
 		:user_id => '',
 		:auth => {
-			:consumer_key => '',
-			:consumer_secret => '',
+			:consumer_key => 'd646c0cf95924567ac05e7983b63b54a',
+			:consumer_secret => '065c51ae2d124b5b81b69103d878b0a2',
 			:access_token => '',
 			:access_secret => ''
 		}
