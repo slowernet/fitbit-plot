@@ -21,9 +21,11 @@ That kind of thing.
 
 ## Privacy and disclaimer
 
-Your copy of the application has read-only access to your data. I have no access to it. I assure you I don't have any interest in your data, but note that I take no responsibility for anything that happens if you choose to use this app. Like the man says:
+Your copy of the application has read-only access to your data at fitbit. I have no access to it. I assure you I don't have any interest in your data, but note that I take no responsibility for anything that happens if you choose to use this app. Like the man says:
 
 > THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+Installing this application on the public internet will put your fitbit data on the public internet. Use htaccess or the like to secure.
 
 ## Acknowledgements
 

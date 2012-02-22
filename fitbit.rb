@@ -50,9 +50,10 @@ __END__
 	<title>fitbit</title>
 	<style type="text/css" media="screen">
 		html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{border:0;font-size:100%;font:inherit;vertical-align:baseline;margin:0;padding:0;}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block;}body{line-height:1;}ol,ul{list-style:none;}blockquote,q{quotes:none;}blockquote:before,blockquote:after,q:before,q:after{content:none;}table{border-collapse:collapse;border-spacing:0;}
-		body { padding: 12px; font: 13px/17px 'hevetica neue', helvetica; }
+		body { padding: 12px; font-size: 14px; }
 		a { text-decoration: none; color: #88b; }
 		.loading { background: transparent url(http://curbednetwork.com/images/spinner.gif) 50% 50% no-repeat; }
+		.credit { position: absolute; bottom: 3px; right: 3px; color: #666; font-size: 12px; }
 	</style>
 	
 	<script type="text/javascript" defer charset="utf-8">
@@ -80,6 +81,7 @@ __END__
 		<!-- <option value="/body/weight" data-graph-zero-origin="false">Weight</option> -->
 	</select>
 	<div id="canvas"></div>
+	<div class="credit">graphs by <a href="https://github.com/slowernet/fitbit-plot">fitbit-plot</a></div>
 </body>
 
 <script type="text/javascript" charset="utf-8">
