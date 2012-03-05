@@ -1,10 +1,14 @@
 ## fitbit plot
 
+Big graphs for your Fitbit data.
+
 <a href="http://cl.ly/2z071W3N341D1h1J1h1o/Screen%20Shot%202012-02-21%20at%2010.47.58%20AM.png"><img src="http://cl.ly/2z071W3N341D1h1J1h1o/Screen%20Shot%202012-02-21%20at%2010.47.58%20AM.png" width="600" target="_blank" border="0"></a>
 
 That kind of thing. 
 
 ## Install
+
+Fitbit-plot is a single-file Sinatra application.
 
 * `git clone https://github.com/slowernet/fitbit-plot.git`
 * `cd fitbit-plot`
@@ -15,7 +19,6 @@ That kind of thing.
 
 ## todo
 
-* 4-day moving average is hardcoded, ugly. Make configurable.
 * Select data to be graphed in the config rather than the html.
 * Select colors in config.
 

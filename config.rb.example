@@ -7,6 +7,9 @@ CONFIG = {
 			:access_token => '',
 			:access_secret => ''
 		}
+	},
+	:plot => {
+		:moving_average_days => 7
 	}
 }
 
