@@ -70,6 +70,8 @@ __END__
 			'http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.1/underscore-min.js',
 			'jquery.flot.min.js'
 		], 'bundle');
+		
+		window.config = <%= CONFIG[:plot].to_json %>;
 	</script>
 </head>
 <body>
@@ -87,11 +89,12 @@ __END__
 <script type="text/javascript" charset="utf-8">
 	$script.ready('bundle', function() {
 		var plot = null;
-
+			
 		$('select').change(function(ev) {
 			$('#canvas').empty().addClass('loading');
 			var $select = $(this);
 			if ($select.val() == '') return;
+			
 			$.getJSON('/data.json', { 
 				e: $(this).val().toLowerCase() 
 			}, function(d) {
@@ -99,13 +102,13 @@ __END__
 				plot = $.plot(
 					$("#canvas"), [
 						{ data: d },
-						{ data: _.map(_.range(3, d.length), function(i) { return [ d[i][0], ((d[i][1] + d[i-1][1] + d[i-2][1] + d[i-3][1]) / 4.0) ]; }) }
+						{ data: _.map(_.range(config["moving_average_days"]-1, d.length), function(i) { return [ d[i][0], (_.inject(d.slice(i-(config["moving_average_days"]-1), i+1), function(acc, j) { return acc + j[1]; }, 0) / config["moving_average_days"]) ]; }) }
 					], {
 						series: {
 							lines: { show: true },
 							points: { show: true }
 						},
-						colors: [ 'black', '#eaa' ],
+						colors: [ '#999', '#a00' ],
 						xaxis: {
 							mode: "time",
 							minTickSize: [1, "day"]
