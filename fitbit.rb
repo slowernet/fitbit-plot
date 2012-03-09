@@ -18,7 +18,6 @@ configure do
 	})
 end
 
-
 get '/' do
 	erb :index
 end
@@ -55,6 +54,7 @@ __END__
 		.loading { background: transparent url(http://curbednetwork.com/images/spinner.gif) 50% 50% no-repeat; }
 		.credit { position: absolute; bottom: 3px; right: 3px; color: #666; font-size: 12px; }
 	</style>
+	<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 	
 	<script type="text/javascript" defer charset="utf-8">
 		/*!
@@ -102,7 +102,7 @@ __END__
 				plot = $.plot(
 					$("#canvas"), [
 						{ data: d },
-						{ data: _.map(_.range(config["moving_average_days"]-1, d.length), function(i) { return [ d[i][0], (_.inject(d.slice(i-(config["moving_average_days"]-1), i+1), function(acc, j) { return acc + j[1]; }, 0) / config["moving_average_days"]) ]; }) }
+						{ data: _.map(_.range(config["moving_average_days"]-1, d.length-1), function(i) { return [ d[i][0], (_.inject(d.slice(i-(config["moving_average_days"]-1), i+1), function(acc, j) { return acc + j[1]; }, 0) / config["moving_average_days"]) ]; }) }
 					], {
 						series: {
 							lines: { show: true },
