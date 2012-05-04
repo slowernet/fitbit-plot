@@ -75,13 +75,19 @@ __END__
 	</script>
 </head>
 <body>
-	<select>
+	<select id="activity">
 		<option value="/activities/log/steps" data-graph-zero-origin="true">Steps</option>
 		<option value="/activities/log/distance">Miles</option>
 		<option value="/activities/log/floors">Floors</option>
-		<!-- <option value="/activities/log/calories">Calories</option> -->
-		<!-- <option value="/body/weight" data-graph-zero-origin="false">Weight</option> -->
+		<option value="/activities/log/calories">Calories</option>
+		<option value="/body/weight" data-graph-zero-origin="false">Weight</option>
 	</select>
+
+	<select id="average-duration">
+		<option value="7">7 days</option>
+		<option value="30">30 days</option>
+	</select>
+
 	<div id="canvas"></div>
 	<div class="credit">graphs by <a href="https://github.com/slowernet/fitbit-plot">fitbit-plot</a></div>
 </body>
@@ -89,20 +95,21 @@ __END__
 <script type="text/javascript" charset="utf-8">
 	$script.ready('bundle', function() {
 		var plot = null;
-			
-		$('select').change(function(ev) {
+		
+		
+		function _render() {
 			$('#canvas').empty().addClass('loading');
-			var $select = $(this);
-			if ($select.val() == '') return;
-			
+			var activity = $('select#activity').val();
+			var yorigin = $('select#activity').find(":selected").data('graph-zero-origin') ? 0 : null;
+			var average_duration = (v = $('select#average-duration').val()) == 'all' ? 0 : parseInt(v);
+
 			$.getJSON('/data.json', { 
-				e: $(this).val().toLowerCase() 
+				e: activity.toLowerCase() 
 			}, function(d) {
-				var yorigin = $select.find(":selected").data('graph-zero-origin') ? 0 : null;
 				plot = $.plot(
 					$("#canvas"), [
 						{ data: d },
-						{ data: _.map(_.range(config["moving_average_days"]-1, d.length-1), function(i) { return [ d[i][0], (_.inject(d.slice(i-(config["moving_average_days"]-1), i+1), function(acc, j) { return acc + j[1]; }, 0) / config["moving_average_days"]) ]; }) }
+						{ data: _.map(_.range(average_duration-1, d.length), function(i) { return [ d[i][0], (_.inject(d.slice(i-(average_duration-1), i+1), function(acc, j) { return acc + j[1]; }, 0) / average_duration) ]; }) }
 					], {
 						series: {
 							lines: { show: true },
@@ -123,9 +130,9 @@ __END__
 					}
 				);
 				$('#canvas').removeClass('loading');
-			});
-		});
-
+			});			
+		}
+		
 		var previousPoint = null;
 		$("#canvas").bind("plothover", function (event, pos, item) {
 			if (item) {
@@ -156,10 +163,17 @@ __END__
 				opacity: 0.80
 			}).appendTo("body").fadeIn(200);
 		}
-
+		
 		$('#canvas').height($(document).height() - 50);
+		
+		$('select#activity').change(function(ev) {
+			_render();
+		}).change();
 
-		$('select').val('/activities/log/steps').change();		
+		$('select#average-duration').change(function(ev) {
+			_render();
+		});
+		
 	});
 </script>
 </html>
